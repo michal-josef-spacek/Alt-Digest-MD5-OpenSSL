@@ -120,6 +120,8 @@ static SV* make_mortal_sv(pTHX_ const unsigned char *src, int type)
     return sv_2mortal(newSVpv(ret,len));
 }
 
+typedef PerlIO* InputStream;
+
 MODULE = Digest::MD5   PACKAGE = Digest::MD5
 
 PROTOTYPES: DISABLE
@@ -140,6 +142,53 @@ new(xclass)
         }
         MD5_Init(context);
         XSRETURN(1);
+
+void
+addfile(self, fh)
+    SV* self
+    InputStream fh
+    PREINIT:
+    MD5_CTX* context = get_md5_ctx(aTHX_ self);
+    STRLEN fill = context->Nl & 0x3F;
+#ifdef USE_HEAP_INSTEAD_OF_STACK
+    unsigned char* buffer;
+#else
+    unsigned char buffer[4096];
+#endif
+    int  n;
+    CODE:
+    if (fh) {
+#ifdef USE_HEAP_INSTEAD_OF_STACK
+        New(0, buffer, 4096, unsigned char);
+        assert(buffer);
+#endif
+            if (fill) {
+            /* The MD5Update() function is faster if it can work with
+             * complete blocks.  This will fill up any buffered block
+             * first.
+             */
+            STRLEN missing = 64 - fill;
+            if ( (n = PerlIO_read(fh, buffer, missing)) > 0)
+             MD5_Update(context, buffer, n);
+            else
+            XSRETURN(1);  /* self */
+        }
+
+        /* Process blocks until EOF or error */
+            while ( (n = PerlIO_read(fh, buffer, sizeof(buffer))) > 0) {
+            MD5_Update(context, buffer, n);
+        }
+#ifdef USE_HEAP_INSTEAD_OF_STACK
+        Safefree(buffer);
+#endif
+        if (PerlIO_error(fh)) {
+        croak("Reading from filehandle failed");
+        }
+    }
+    else {
+        croak("No filehandle passed");
+    }
+    XSRETURN(1);  /* self */
 
 void
 clone(self)
