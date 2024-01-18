@@ -13,3 +13,8 @@ MYMETA.yml
 MD5.bs
 MD5.c
 MD5.o
+inline.h.gcov
+MD5.gcda
+MD5.gcno
+MD5.xs.gcov
+cpanfile
