@@ -2,7 +2,6 @@ use 5.008005;
 use strict;
 use warnings;
 
-use ExtUtils::MakeMaker;
 use Alien::Base::Wrapper qw(WriteMakefile);
 
 WriteMakefile(
