@@ -10,3 +10,8 @@ cover_db/
 MD5.bs
 MD5.c
 MD5.o
+MD5.c.gcov
+MD5.gcda
+MD5.gcno
+MD5.xs.gcov
+inline.h.gcov
