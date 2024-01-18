@@ -7,6 +7,14 @@ use Alien::Base::Wrapper qw(WriteMakefile);
 WriteMakefile(
 	NAME => 'Digest::MD5',
 	VERSION_FROM => 'lib/Digest/MD5.pm',
+	BUILD_REQUIRES => {
+		'Alien::Base::Wrapper' => 0.32,
+		'ExtUtils::MakeMaker' => '6.52',
+	},
+	CONFIGURE_REQUIRES => {
+		'Alien::Base::Wrapper' => 0.32,
+		'ExtUtils::MakeMaker' => '6.52',
+	},
 	PREREQ_PM => {
 		'Digest::base' => '1.00',
 		'XSLoader' => 0,
