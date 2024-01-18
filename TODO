@@ -5,7 +5,8 @@ TODO
 4. Add test comments to tests.
 5. Add doc.
 6. Add OpenSSL3 support (deprecated things)
-7.
+7. Add my tests. And move Digest::MD5 tests to integration.
+8. 
 
 Applied
 =======
