@@ -10,3 +10,6 @@ TODO
 MYMETA.json
 MYMETA.yml
 .travis.yml
+MD5.bs
+MD5.c
+MD5.o
