@@ -1,0 +1,19 @@
+lib/Alt/Digest/MD5/OpenSSL.pm
+lib/Digest/MD5.pm
+Makefile.PL
+MANIFEST			This list of files
+MD5.bs
+MD5.c
+MD5.o
+MD5.xs
+README
+rfc1321.txt
+t/align.t
+t/badfile.t
+t/bits.t
+t/clone.t
+t/files.t
+t/md5-aaa.t
+t/utf8.t
+t/warns.t
+typemap
