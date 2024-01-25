@@ -16,6 +16,11 @@ WriteMakefile(
 		'Alien::Base::Wrapper' => 0.32,
 		'ExtUtils::MakeMaker' => '6.52',
 	},
+	META_MERGE => {
+		no_index => {
+			directory => [qw(lib/Digest)],
+		},
+	},
 	PREREQ_PM => {
 		'Digest::base' => '1.00',
 		'XSLoader' => 0,
