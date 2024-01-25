@@ -6,7 +6,7 @@ use Alien::Base::Wrapper qw(WriteMakefile);
 
 WriteMakefile(
 	NAME => 'Alt::Digest::MD5::OpenSSL',
-	VERSION_FROM => 'lib/Digest/MD5.pm',
+	VERSION_FROM => 'lib/Alt/Digest/MD5/OpenSSL.pm',
 	BUILD_REQUIRES => {
 		'Alien::Base::Wrapper' => 0.32,
 		'ExtUtils::MakeMaker' => '6.52',
