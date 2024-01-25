@@ -5,7 +5,8 @@ use warnings;
 use Alien::Base::Wrapper qw(WriteMakefile);
 
 WriteMakefile(
-	NAME => 'Alt::Digest::MD5::OpenSSL',
+	NAME => 'Digest::MD5',
+	DISTNAME => 'Alt-Digest-MD5-OpenSSL',
 	VERSION_FROM => 'lib/Alt/Digest/MD5/OpenSSL.pm',
 	BUILD_REQUIRES => {
 		'Alien::Base::Wrapper' => 0.32,
