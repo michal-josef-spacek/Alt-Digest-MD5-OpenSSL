@@ -20,7 +20,7 @@ WriteMakefile(
 		'XSLoader' => 0,
 	},
 	($] >= 5.005 ? (
-		ABSTRACT_FROM  => 'lib/Digest/MD5.pm',
+		ABSTRACT_FROM  => 'lib/Alt/Digest/MD5/OpenSSL.pm',
 		AUTHOR => 'Michal Josef Spacek <michal.josef.spacek@gmail.com>',
 	) : ()),
 	'alien_requires' => {
