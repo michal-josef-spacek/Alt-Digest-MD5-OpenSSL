@@ -4,6 +4,6 @@ use strict;
 use warnings;
 
 our $AUTHORITY = 'cpan:SKIM';
-our $VERSION = 0.0;1
+our $VERSION = 0.01;
 
 1;
