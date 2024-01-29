@@ -9,6 +9,7 @@ rfc1321.txt
 SIGNATURE
 t/Alt-Digest-MD5-OpenSSL/01-use.t
 t/Alt-Digest-MD5-OpenSSL/02-version.t
+t/Alt-Digest-MD5-OpenSSL/03-openssl_diag.t
 t/Digest-MD5/01-use.t
 t/Digest-MD5/02-version.t
 t/original/align.t
