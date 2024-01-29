@@ -10,11 +10,11 @@ WriteMakefile(
 	VERSION_FROM => 'lib/Alt/Digest/MD5/OpenSSL.pm',
 	BUILD_REQUIRES => {
 		'Alien::Base::Wrapper' => 0.32,
-		'ExtUtils::MakeMaker' => '6.52',
+		'ExtUtils::MakeMaker' => '6.76',
 	},
 	CONFIGURE_REQUIRES => {
 		'Alien::Base::Wrapper' => 0.32,
-		'ExtUtils::MakeMaker' => '6.52',
+		'ExtUtils::MakeMaker' => '6.76',
 	},
 	META_MERGE => {
 		no_index => {
@@ -31,5 +31,8 @@ WriteMakefile(
 	) : ()),
 	'alien_requires' => {
 		'Alien::OpenSSL' => 0,
+	},
+	'test' => {
+		RECURSIVE_TEST_FILES => 1,
 	},
 );
