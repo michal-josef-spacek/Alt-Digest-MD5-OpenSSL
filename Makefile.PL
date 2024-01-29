@@ -25,6 +25,14 @@ WriteMakefile(
 		'Digest::base' => '1.00',
 		'XSLoader' => 0,
 	},
+	TEST_REQUIRES => {
+		'Alien::OpenSSL' => 0,
+		'Encode' => 0,
+		'MIME::Base64' => 0,
+		'Test::Alien::Diag' => 0,
+		'Test::More' => 0,
+		'Test::NoWarnings' => 0,
+	},
 	($] >= 5.005 ? (
 		ABSTRACT_FROM  => 'lib/Alt/Digest/MD5/OpenSSL.pm',
 		AUTHOR => 'Michal Josef Spacek <michal.josef.spacek@gmail.com>',
