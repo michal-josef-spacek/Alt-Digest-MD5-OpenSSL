@@ -1,4 +1,5 @@
 0.03
+ - Add author basic tests.
  - Move original Digest::MD5 tests to t/original.
 
 0.02 2024-01-25T13:26:59+01:00
