@@ -248,13 +248,13 @@ md5(...)
         Digest::MD5::md5_hex    = F_HEX
         Digest::MD5::md5_base64 = F_B64
     PREINIT:
-        MD5_CTX ctx;
+        MD5_CTX context;
         int i;
         unsigned char *data;
         STRLEN len;
         unsigned char digeststr[16];
     PPCODE:
-        MD5_Init(&ctx);
+        MD5_Init(&context);
 
         if ((PL_dowarn & G_WARN_ON) || ckWARN(WARN_SYNTAX)) {
             const char *msg = 0;
@@ -290,10 +290,10 @@ md5(...)
         for (i = 0; i < items; i++) {
             U32 had_utf8 = SvUTF8(ST(i));
             data = (unsigned char *)(SvPVbyte(ST(i), len));
-            MD5_Update(&ctx, data, len);
+            MD5_Update(&context, data, len);
             if (had_utf8)
                 sv_utf8_upgrade(ST(i));
         }
-        MD5_Final(digeststr, &ctx);
+        MD5_Final(digeststr, &context);
         ST(0) = make_mortal_sv(aTHX_ digeststr, ix);
         XSRETURN(1);
