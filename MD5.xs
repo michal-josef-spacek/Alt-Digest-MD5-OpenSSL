@@ -6,13 +6,13 @@
 #include <string.h>
 
 STATIC const struct {
-        int (*svt_get)(SV* sv, MAGIC* mg);
-        int (*svt_set)(SV* sv, MAGIC* mg);
-        U32 (*svt_len)(SV* sv, MAGIC* mg);
-        int (*svt_clear)(SV* sv, MAGIC* mg);
-        int (*svt_free)(SV* sv, MAGIC* mg);
+    int (*svt_get)(SV* sv, MAGIC* mg);
+    int (*svt_set)(SV* sv, MAGIC* mg);
+    U32 (*svt_len)(SV* sv, MAGIC* mg);
+    int (*svt_clear)(SV* sv, MAGIC* mg);
+    int (*svt_free)(SV* sv, MAGIC* mg);
 } vtbl_md5 = {
-        NULL, NULL, NULL, NULL, NULL
+    NULL, NULL, NULL, NULL, NULL
 };
 
 /* TODO defined(USE_ITHREADS) && defined(MGf_DUP) */
@@ -148,47 +148,46 @@ addfile(self, fh)
     SV* self
     InputStream fh
     PREINIT:
-    MD5_CTX* context = get_md5_ctx(aTHX_ self);
-    STRLEN fill = context->Nl & 0x3F;
+        MD5_CTX* context = get_md5_ctx(aTHX_ self);
+        STRLEN fill = context->Nl & 0x3F;
 #ifdef USE_HEAP_INSTEAD_OF_STACK
-    unsigned char* buffer;
+        unsigned char* buffer;
 #else
-    unsigned char buffer[4096];
+        unsigned char buffer[4096];
 #endif
-    int  n;
+        int  n;
     CODE:
-    if (fh) {
+        if (fh) {
 #ifdef USE_HEAP_INSTEAD_OF_STACK
-        New(0, buffer, 4096, unsigned char);
-        assert(buffer);
+            New(0, buffer, 4096, unsigned char);
+            assert(buffer);
 #endif
             if (fill) {
-            /* The MD5Update() function is faster if it can work with
-             * complete blocks.  This will fill up any buffered block
-             * first.
-             */
-            STRLEN missing = 64 - fill;
-            if ( (n = PerlIO_read(fh, buffer, missing)) > 0)
-             MD5_Update(context, buffer, n);
-            else
-            XSRETURN(1);  /* self */
-        }
+                /* The MD5Update() function is faster if it can work with
+                 * complete blocks.  This will fill up any buffered block
+                 * first.
+                 */
+                STRLEN missing = 64 - fill;
+                if ( (n = PerlIO_read(fh, buffer, missing)) > 0)
+                    MD5_Update(context, buffer, n);
+                else
+                    XSRETURN(1);  /* self */
+            }
 
-        /* Process blocks until EOF or error */
+            /* Process blocks until EOF or error */
             while ( (n = PerlIO_read(fh, buffer, sizeof(buffer))) > 0) {
-            MD5_Update(context, buffer, n);
-        }
+                MD5_Update(context, buffer, n);
+            }
 #ifdef USE_HEAP_INSTEAD_OF_STACK
-        Safefree(buffer);
+            Safefree(buffer);
 #endif
-        if (PerlIO_error(fh)) {
-        croak("Reading from filehandle failed");
+            if (PerlIO_error(fh)) {
+                croak("Reading from filehandle failed");
+            }
+        } else {
+            croak("No filehandle passed");
         }
-    }
-    else {
-        croak("No filehandle passed");
-    }
-    XSRETURN(1);  /* self */
+        XSRETURN(1);  /* self */
 
 void
 clone(self)
@@ -222,7 +221,8 @@ add(self, ...)
             U32 had_utf8 = SvUTF8(ST(i));
             data = (unsigned char *)(SvPVbyte(ST(i), len));
             MD5_Update(context, data, len);
-            if (had_utf8) sv_utf8_upgrade(ST(i));
+            if (had_utf8)
+                sv_utf8_upgrade(ST(i));
         }
         XSRETURN(1);  /* self */
 
@@ -268,13 +268,11 @@ md5(...)
                     else
                         msg = "called with reference argument";
                 }
-            }
-            else if (items > 1) {
+            } else if (items > 1) {
                 data = (unsigned char *)SvPV(ST(0), len);
                 if (len == 11 && memEQ("Digest::MD5", data, 11)) {
                     msg = "probably called as class method";
-                }
-                else if (SvROK(ST(0))) {
+                } else if (SvROK(ST(0))) {
                     SV* sv = SvRV(ST(0));
                     char *name;
                     if (SvOBJECT(sv) && (name = HvNAME(SvSTASH(sv)))
@@ -293,7 +291,8 @@ md5(...)
             U32 had_utf8 = SvUTF8(ST(i));
             data = (unsigned char *)(SvPVbyte(ST(i), len));
             MD5_Update(&ctx, data, len);
-            if (had_utf8) sv_utf8_upgrade(ST(i));
+            if (had_utf8)
+                sv_utf8_upgrade(ST(i));
         }
         MD5_Final(digeststr, &ctx);
         ST(0) = make_mortal_sv(aTHX_ digeststr, ix);

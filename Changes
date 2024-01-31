@@ -1,5 +1,6 @@
 0.04
  - Fix LICENSE to same as original Digest::MD5.
+ - Indent XS code.
 
 0.03 2024-01-29T23:55:48+01:00
  - Add author basic tests.
