@@ -3,7 +3,6 @@ TODO
 1. Support for threads, threads.t test file
 2. Context
 4. Add test comments to tests.
-5. Add doc.
 6. Add OpenSSL3 support (deprecated things)
 7. Add my tests. And move Digest::MD5 tests to integration.
 8. Author tests.
@@ -13,3 +12,6 @@ Applied
 =======
 3. t/badfile.t
 OK [20240118] skim
+
+5. Add doc.
+OK [20240208] skim

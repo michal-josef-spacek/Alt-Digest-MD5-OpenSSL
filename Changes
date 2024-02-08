@@ -1,5 +1,6 @@
 0.04
  - Fix LICENSE to same as original Digest::MD5.
+ - Improve doc.
  - Indent XS code.
  - Rename ctx variable to context.
 
