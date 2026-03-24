@@ -6,7 +6,6 @@ TODO
 6. Add OpenSSL3 support (deprecated things)
 7. Add my tests. And move Digest::MD5 tests to integration.
 8. Author tests.
-9. Add LICENSE file
 10.
 
 Applied
@@ -16,3 +15,6 @@ OK [20240118] skim
 
 5. Add doc.
 OK [20240208] skim
+
+9. Add LICENSE file
+OK [20260324] skim
