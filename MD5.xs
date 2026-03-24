@@ -105,17 +105,47 @@ static void md5_free(MD5_COMPAT_CTX *c) {
 }
 #endif
 
-STATIC const struct {
-    int (*svt_get)(SV* sv, MAGIC* mg);
-    int (*svt_set)(SV* sv, MAGIC* mg);
-    U32 (*svt_len)(SV* sv, MAGIC* mg);
-    int (*svt_clear)(SV* sv, MAGIC* mg);
-    int (*svt_free)(SV* sv, MAGIC* mg);
-} vtbl_md5 = {
-    NULL, NULL, NULL, NULL, NULL
+#if defined(USE_ITHREADS) && defined(MGf_DUP)
+
+static int
+md5_dup(pTHX_ MAGIC *mg, CLONE_PARAMS *params)
+{
+    MD5_COMPAT_CTX *new_context;
+    MD5_COMPAT_CTX *context = (MD5_COMPAT_CTX *)mg->mg_ptr;
+
+    PERL_UNUSED_ARG(params);
+
+    New(55, new_context, 1, MD5_COMPAT_CTX);
+
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
+    new_context->ctx = EVP_MD_CTX_new();
+    if (new_context->ctx == NULL || !EVP_MD_CTX_copy_ex(new_context->ctx, context->ctx)) {
+        Safefree(new_context);
+        croak("Failed to duplicate MD5 context for thread");
+    }
+    new_context->Nl = context->Nl;
+#else
+    memcpy(new_context, context, sizeof(MD5_COMPAT_CTX));
+#endif
+
+    mg->mg_ptr = (char *)new_context;
+    return 0;
+}
+
+#endif
+
+STATIC MGVTBL vtbl_md5 = {
+    NULL, /* get */
+    NULL, /* set */
+    NULL, /* len */
+    NULL, /* clear */
+    NULL, /* free */
+#if defined(USE_ITHREADS) && defined(MGf_DUP)
+    NULL, /* copy */
+    md5_dup, /* dup */
+#endif
 };
 
-/* TODO defined(USE_ITHREADS) && defined(MGf_DUP) */
 static SV*
 new_md5_ctx(pTHX_ MD5_COMPAT_CTX *context, const char *sclass)
 {
@@ -123,7 +153,10 @@ new_md5_ctx(pTHX_ MD5_COMPAT_CTX *context, const char *sclass)
     SV *obj = newRV_noinc(sv);
 
     sv_bless(obj, gv_stashpv(sclass, 0));
-    sv_magicext(sv, NULL, PERL_MAGIC_ext, (const MGVTBL * const)&vtbl_md5, (const char *)context, 0);
+    sv_magicext(sv, NULL, PERL_MAGIC_ext, &vtbl_md5, (const char *)context, 0);
+#if defined(USE_ITHREADS) && defined(MGf_DUP)
+    SvMAGIC(sv)->mg_flags |= MGf_DUP;
+#endif
 
     return obj;
 }
@@ -138,7 +171,7 @@ get_md5_ctx(pTHX_ SV* sv)
 
     for (mg = SvMAGIC(SvRV(sv)); mg; mg = mg->mg_moremagic) {
         if (mg->mg_type == PERL_MAGIC_ext
-            && mg->mg_virtual == (const MGVTBL * const)&vtbl_md5) {
+            && mg->mg_virtual == &vtbl_md5) {
             return (MD5_COMPAT_CTX *)mg->mg_ptr;
         }
     }
