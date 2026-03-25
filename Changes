@@ -1,4 +1,4 @@
-0.06
+0.06 2026-03-25T09:59:10+01:00
  - Add support for OpenSSL 3.5.
  - Add support for threads.
  - Improve cpanfile with test dependencies.
