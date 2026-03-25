@@ -6,4 +6,4 @@ use Test::More 'tests' => 2;
 use Test::NoWarnings;
 
 # Test.
-is($Alt::Digest::MD5::OpenSSL::VERSION, 0.06, 'Version.');
+is($Alt::Digest::MD5::OpenSSL::VERSION, 0.07, 'Version.');

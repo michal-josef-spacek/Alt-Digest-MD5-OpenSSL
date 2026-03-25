@@ -6,4 +6,4 @@ use Test::More 'tests' => 2;
 use Test::NoWarnings;
 
 # Test.
-is($Digest::MD5::VERSION, 0.06, 'Version.');
+is($Digest::MD5::VERSION, 0.07, 'Version.');

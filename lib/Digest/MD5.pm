@@ -6,7 +6,7 @@ use warnings;
 use Exporter;
 use XSLoader;
 
-our $VERSION = 0.06;
+our $VERSION = 0.07;
 our @EXPORT_OK = qw(md5 md5_hex md5_base64);
 
 *import = \&Exporter::import;
