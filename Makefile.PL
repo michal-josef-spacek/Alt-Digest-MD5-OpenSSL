@@ -37,6 +37,7 @@ WriteMakefile(
 	},
 	PREREQ_PM => {
 		'Digest::base' => '1.00',
+		'Exporter' => 0,
 		'XSLoader' => 0,
 	},
 	TEST_REQUIRES => {
